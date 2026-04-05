@@ -1,0 +1,109 @@
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+
+// Structure to store book details
+struct Book {
+    string title;
+    string author;
+};
+
+class Library {
+private:
+    unordered_map<int, Book> books; // Hash table
+
+public:
+    // Add a book
+    void addBook(int id, string title, string author) {
+        books[id] = {title, author};
+        cout << "Book added successfully!\n";
+    }
+
+    // Search a book
+    void searchBook(int id) {
+        if (books.find(id) != books.end()) {
+            cout << "Book Found:\n";
+            cout << "Title: " << books[id].title << endl;
+            cout << "Author: " << books[id].author << endl;
+        } else {
+            cout << "Book not found!\n";
+        }
+    }
+
+    // Delete a book
+    void deleteBook(int id) {
+        if (books.erase(id)) {
+            cout << "Book deleted successfully!\n";
+        } else {
+            cout << "Book not found!\n";
+        }
+    }
+
+    // Display all books
+    void displayBooks() {
+        if (books.empty()) {
+            cout << "No books available!\n";
+            return;
+        }
+
+        cout << "\nLibrary Books:\n";
+        for (auto &pair : books) {
+            cout << "ID: " << pair.first << endl;
+            cout << "Title: " << pair.second.title << endl;
+            cout << "Author: " << pair.second.author << endl;
+            cout << "----------------------\n";
+        }
+    }
+};
+
+int main() {
+    Library lib;
+    int choice, id;
+    string title, author;
+
+    do {
+        cout << "\n--- Library Menu ---\n";
+        cout << "1. Add Book\n2. Search Book\n3. Delete Book\n4. Display Books\n5. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+        case 1:
+            cout << "Enter Book ID: ";
+            cin >> id;
+            cin.ignore();
+            cout << "Enter Title: ";
+            getline(cin, title);
+            cout << "Enter Author: ";
+            getline(cin, author);
+            lib.addBook(id, title, author);
+            break;
+
+        case 2:
+            cout << "Enter Book ID: ";
+            cin >> id;
+            lib.searchBook(id);
+            break;
+
+        case 3:
+            cout << "Enter Book ID: ";
+            cin >> id;
+            lib.deleteBook(id);
+            break;
+
+        case 4:
+            lib.displayBooks();
+            break;
+
+        case 5:
+            cout << "Exiting...\n";
+            break;
+
+        default:
+            cout << "Invalid choice!\n";
+        }
+
+    } while (choice != 5);
+
+    return 0;
+}
